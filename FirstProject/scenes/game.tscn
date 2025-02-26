@@ -1,11 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://csc5mjxrriwhk"]
+[gd_scene load_steps=15 format=3 uid="uid://csc5mjxrriwhk"]
 
 [ext_resource type="PackedScene" uid="uid://bw5ubu2kje2pc" path="res://scenes/player.tscn" id="1_n7fvd"]
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_qby83"]
 [ext_resource type="Texture2D" uid="uid://dd58oapgh5y8x" path="res://Assets/sprites/world_tileset.png" id="2_xkf8s"]
 [ext_resource type="PackedScene" uid="uid://qo87ottw821w" path="res://scenes/platform.tscn" id="3_tywig"]
 [ext_resource type="PackedScene" uid="uid://g4ju0toxi6kf" path="res://scenes/coin.tscn" id="4_el27h"]
 [ext_resource type="PackedScene" uid="uid://baopjef7wlpgu" path="res://scenes/killzone.tscn" id="5_yqp0r"]
 [ext_resource type="PackedScene" uid="uid://b1pmgrsm3qkul" path="res://scenes/slime.tscn" id="6_hl4og"]
+[ext_resource type="FontFile" uid="uid://dj3hjyy3r7ck1" path="res://Assets/fonts/PixelOperator8.ttf" id="7_0avnm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_d4pwj"]
 texture = ExtResource("2_xkf8s")
@@ -135,6 +137,21 @@ texture = ExtResource("2_xkf8s")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_d4pwj")
 
+[sub_resource type="Animation" id="Animation_w1gem"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(87, -14)]
+}
+
 [sub_resource type="Animation" id="Animation_bxmow"]
 resource_name = "moe"
 length = 2.0
@@ -152,21 +169,6 @@ tracks/0/keys = {
 "values": [Vector2(87, -14), Vector2(143, -14)]
 }
 
-[sub_resource type="Animation" id="Animation_w1gem"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(87, -14)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1dg8o"]
 _data = {
 "RESET": SubResource("Animation_w1gem"),
@@ -177,6 +179,18 @@ _data = {
 
 [node name="Game" type="Node2D"]
 
+[node name="GameManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_qby83")
+
+[node name="ScoreLabel" type="Label" parent="GameManager"]
+offset_left = 11.0
+offset_top = -74.0
+offset_right = 51.0
+offset_bottom = -51.0
+theme_override_fonts/font = ExtResource("7_0avnm")
+theme_override_font_sizes/font_size = 8
+
 [node name="Player" parent="." instance=ExtResource("1_n7fvd")]
 
 [node name="camera" type="Camera2D" parent="Player"]
@@ -186,12 +200,12 @@ limit_smoothed = true
 position_smoothing_enabled = true
 
 [node name="TileMap" type="TileMap" parent="."]
+position = Vector2(54, 0)
 tile_set = SubResource("TileSet_gstpw")
 format = 2
 layer_0/name = "back"
-layer_0/tile_data = PackedInt32Array(65525, 0, 0)
 layer_1/name = "mid"
-layer_1/tile_data = PackedInt32Array(131065, 0, 0, 131066, 0, 0, 131067, 0, 0, 65532, 0, 0, 65533, 0, 0, 65534, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 3, 131072, 4, 4, 131072, 4, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 131072, 4, 131064, 0, 0, 131063, 0, 0, 131062, 0, 0, 65526, 131072, 4, 65527, 131072, 4, 65528, 131072, 4, 65529, 131072, 4, 65530, 131072, 4, 65531, 131072, 4, -5, 131072, 4, -4, 131072, 4, -3, 131072, 4, -65539, 131072, 4, -65538, 131072, 4, -2, 131072, 4, -1, 131072, 4, -131072, 131072, 4, -196608, 131072, 4, -131071, 131072, 4, -65535, 131072, 4, -65534, 131072, 4, 2, 131072, 4, -65532, 131072, 4, -65531, 131072, 4, -131067, 131072, 4, -131066, 131072, 4, -131065, 131072, 4, -196601, 131072, 4, -131064, 131072, 4, -131063, 131072, 4, -65527, 131072, 4)
+layer_1/tile_data = PackedInt32Array(131065, 0, 0, 131066, 0, 0, 131067, 0, 0, 65532, 0, 0, 65533, 0, 0, 65534, 0, 0, 131071, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 3, 131072, 4, 4, 131072, 4, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 131072, 4, 131064, 0, 0, 131063, 0, 0, 131062, 0, 0, 65526, 131072, 4, 65527, 131072, 4, 65528, 131072, 4, 65529, 131072, 4, 65530, 131072, 4, 65531, 131072, 4, -5, 131072, 4, -4, 131072, 4, -3, 131072, 4, -65539, 131072, 4, -65538, 131072, 4, -2, 131072, 4, -1, 131072, 4, -131072, 131072, 4, -196608, 131072, 4, -131071, 131072, 4, -65535, 131072, 4, -65534, 131072, 4, 2, 131072, 4, -65532, 131072, 4, -65531, 131072, 4, -131067, 131072, 4, -131066, 131072, 4, -131065, 131072, 4, -196601, 131072, 4, -131064, 131072, 4, -131063, 131072, 4, -65527, 131072, 4, 65540, 0, 0, 65525, 0, 0)
 
 [node name="Platform" parent="." instance=ExtResource("3_tywig")]
 position = Vector2(87, -14)
@@ -221,3 +235,13 @@ position = Vector2(33, -2)
 
 [node name="slime" parent="." instance=ExtResource("6_hl4og")]
 position = Vector2(-108, 17)
+
+[node name="Label" type="Label" parent="."]
+offset_left = -140.0
+offset_top = -34.0
+offset_right = -48.0
+offset_bottom = -11.0
+theme_override_colors/font_color = Color(0.662749, 0.326442, 0.87366, 1)
+theme_override_fonts/font = ExtResource("7_0avnm")
+theme_override_font_sizes/font_size = 16
+text = "DANGER "
